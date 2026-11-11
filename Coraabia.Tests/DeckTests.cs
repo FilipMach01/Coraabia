@@ -47,4 +47,24 @@ public class DeckTests
         Assert.Equal(2, player.Count);
         Assert.Equal(2, enemy.Count);
     }
+
+    [Fact]
+    public void Shuffle_DeckWithManyCards_ChangesOrder()
+    {
+        var cards = Enumerable.Range(0, 20).Select(i => TestCards.Make($"Card{i}")).ToList();
+        var deck = new Deck([..cards]);
+
+        deck.Shuffle();
+
+        Assert.NotEqual(cards, DrawAll(deck));
+    }
+
+    private static List<Card> DrawAll(Deck deck)
+    {
+        List<Card> drawn = [];
+        while (deck.Count > 0)
+            drawn.Add(deck.Draw());
+
+        return drawn;
+    }
 }
