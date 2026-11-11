@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Reflection.Metadata.Ecma335;
-
-namespace Coraabia;
+﻿namespace Coraabia;
 
 public class Game(Card player, Card enemy)
 {
