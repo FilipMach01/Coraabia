@@ -6,8 +6,21 @@ public class Deck(List<Card> cards)
 
     public Card Draw()
     {
-        var hand = cards[0];
+        var card = cards[0];
         cards.RemoveAt(0);
-        return hand;
+        return card;
+    }
+
+    public (Deck Player, Deck Enemy) Deal()
+    {
+        List<Card> playerCards = [];
+        List<Card> enemyCards = [];
+        while (cards.Count > 0)
+        {
+            playerCards.Add(Draw());
+            enemyCards.Add(Draw());
+        }
+
+        return (new Deck(playerCards), new Deck(enemyCards));
     }
 }
