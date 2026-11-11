@@ -1,6 +1,6 @@
 ﻿namespace Coraabia;
 
-enum Parameter
+public enum Parameter
 {
     Intellect,
     Danger,
