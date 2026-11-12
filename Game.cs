@@ -1,6 +1,6 @@
 ﻿namespace Coraabia;
 
-public class Game(Card player, Card enemy)
+public class Game(Deck player, Deck enemy)
 {
     public Outcome Play(Parameter parameter)
     {
