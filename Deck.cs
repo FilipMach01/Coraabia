@@ -1,4 +1,6 @@
-﻿namespace Coraabia;
+﻿using System.Runtime.InteropServices;
+
+namespace Coraabia;
 
 public class Deck(List<Card> cards)
 {
@@ -22,5 +24,10 @@ public class Deck(List<Card> cards)
         }
 
         return (new Deck(playerCards), new Deck(enemyCards));
+    }
+
+    public void Shuffle()
+    {
+        Random.Shared.Shuffle(CollectionsMarshal.AsSpan(cards));
     }
 }
