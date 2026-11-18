@@ -13,6 +13,11 @@ public class Deck(List<Card> cards)
         return card;
     }
 
+    public void AddCard(Card card)
+    {
+        cards.Add(card);
+    }
+
     public (Deck Player, Deck Enemy) Deal()
     {
         List<Card> playerCards = [];
@@ -29,5 +34,20 @@ public class Deck(List<Card> cards)
     public void Shuffle()
     {
         Random.Shared.Shuffle(CollectionsMarshal.AsSpan(cards));
+    }
+
+    public bool IsOver()
+    {
+        if (Count == 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public override string ToString()
+    {
+        return $"{string.Join(Environment.NewLine, cards)}";
     }
 }
