@@ -2,6 +2,8 @@
 
 public class Game(Deck player, Deck enemy)
 {
+    public Card PlayerCard => player.TopCard;
+    public Card EnemyCard => enemy.TopCard;
     public bool IsOver => player.Count == 0 || enemy.Count == 0;
 
     public Outcome Result => (player.Count, enemy.Count) switch

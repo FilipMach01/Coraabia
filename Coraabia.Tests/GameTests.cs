@@ -102,4 +102,30 @@ public class GameTests
 
         Assert.Throws<InvalidOperationException>(Act);
     }
+
+    [Fact]
+    public void PlayerCard_PlayerHasCards_ReturnsTopCard()
+    {
+        var top = TestCards.Make("Fila");
+        var player = new Deck([top, TestCards.Make("Other")]);
+        var enemy = new Deck([TestCards.Make("Enemy")]);
+        var game = new Game(player, enemy);
+
+        var card = game.PlayerCard;
+
+        Assert.Same(top, card);
+    }
+
+    [Fact]
+    public void EnemyCard_EnemyHasCards_ReturnsTopCard()
+    {
+        var top = TestCards.Make("Enemy");
+        var player = new Deck([TestCards.Make("Fila")]);
+        var enemy = new Deck([top, TestCards.Make("Other")]);
+        var game = new Game(player, enemy);
+
+        var card = game.EnemyCard;
+
+        Assert.Same(top, card);
+    }
 }

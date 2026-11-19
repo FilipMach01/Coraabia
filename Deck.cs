@@ -5,6 +5,7 @@ namespace Coraabia;
 public class Deck(List<Card> cards)
 {
     public int Count => cards.Count;
+    public Card TopCard => cards[0];
 
     public Card Draw()
     {
@@ -34,16 +35,6 @@ public class Deck(List<Card> cards)
     public void Shuffle()
     {
         Random.Shared.Shuffle(CollectionsMarshal.AsSpan(cards));
-    }
-
-    public bool IsOver()
-    {
-        if (Count == 0)
-        {
-            return true;
-        }
-
-        return false;
     }
 
     public override string ToString()
