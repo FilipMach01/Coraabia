@@ -6,6 +6,9 @@ public class Game(Deck player, Deck enemy)
     public Card EnemyCard => enemy.TopCard;
     public bool IsOver => player.Count == 0 || enemy.Count == 0;
 
+    private readonly Outcome _result = Outcome.PlayerWins;
+    public bool IsPlayerTurn => _result == Outcome.PlayerWins;
+
     public Outcome Result => (player.Count, enemy.Count) switch
     {
         (0, _) => Outcome.EnemyWins,
@@ -33,25 +36,23 @@ public class Game(Deck player, Deck enemy)
             0 => Outcome.Draw,
             > 0 => Outcome.PlayerWins
         };
-        
+        result = outcome;
         var winner = outcome switch
         {
             Outcome.EnemyWins => enemy,
             Outcome.PlayerWins => player,
             _ => null
         };
-        
+
         if (winner != null)
-        {Take(winner,playerCard,enemyCard);}
+        {
+            Take(winner,playerCard,enemyCard);
+        }
         else
         {
             player.AddCard(playerCard);
             enemy.AddCard(enemyCard);
         }
-        
-        
-
-        
         return outcome;
 
     }

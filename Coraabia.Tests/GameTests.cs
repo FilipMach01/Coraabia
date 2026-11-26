@@ -104,6 +104,30 @@ public class GameTests
     }
 
     [Fact]
+    public void IsPlayerTurn_NewGame_ReturnsTrue()
+    {
+        var player = new Deck([TestCards.Make("Fila")]);
+        var enemy = new Deck([TestCards.Make("Enemy")]);
+        var game = new Game(player, enemy);
+
+        var isPlayerTurn = game.IsPlayerTurn;
+
+        Assert.True(isPlayerTurn);
+    }
+
+    [Fact]
+    public void IsPlayerTurn_EnemyWinsRound_ReturnsFalse()
+    {
+        var player = new Deck([TestCards.Make("Fila", danger: 5), TestCards.Make("Other")]);
+        var enemy = new Deck([TestCards.Make("Enemy", danger: 6), TestCards.Make("Other")]);
+        var game = new Game(player, enemy);
+
+        game.Play(Parameter.Danger);
+
+        Assert.False(game.IsPlayerTurn);
+    }
+
+    [Fact]
     public void PlayerCard_PlayerHasCards_ReturnsTopCard()
     {
         var top = TestCards.Make("Fila");
