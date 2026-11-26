@@ -5,6 +5,14 @@ namespace Coraabia.Tests;
 public class ParameterParserTests
 {
     [Fact]
+    public void Parse_ExactName_ReturnsParameter()
+    {
+        var parameter = ParameterParser.Parse("Danger");
+
+        Assert.Equal(Parameter.Danger, parameter);
+    }
+
+    [Fact]
     public void Parse_LowercaseName_ReturnsParameter()
     {
         var parameter = ParameterParser.Parse("danger");
