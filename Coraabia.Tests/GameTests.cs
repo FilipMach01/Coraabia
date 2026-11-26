@@ -92,6 +92,18 @@ public class GameTests
     }
 
     [Fact]
+    public void Result_GameNotOver_ReturnsNull()
+    {
+        var player = new Deck([TestCards.Make("Fila")]);
+        var enemy = new Deck([TestCards.Make("Enemy")]);
+        var game = new Game(player, enemy);
+
+        var result = game.Result;
+
+        Assert.Null(result);
+    }
+
+    [Fact]
     public void Play_GameIsOver_ThrowsInvalidOperationException()
     {
         var player = new Deck([TestCards.Make("Fila")]);
@@ -128,6 +140,18 @@ public class GameTests
     }
 
     [Fact]
+    public void IsPlayerTurn_RoundIsDraw_PlayerKeepsTurn()
+    {
+        var player = new Deck([TestCards.Make("Fila", danger: 5), TestCards.Make("Other")]);
+        var enemy = new Deck([TestCards.Make("Enemy", danger: 5), TestCards.Make("Other")]);
+        var game = new Game(player, enemy);
+
+        game.Play(Parameter.Danger);
+
+        Assert.True(game.IsPlayerTurn);
+    }
+
+    [Fact]
     public void PlayerCard_PlayerHasCards_ReturnsTopCard()
     {
         var top = TestCards.Make("Fila");
@@ -151,5 +175,41 @@ public class GameTests
         var card = game.EnemyCard;
 
         Assert.Same(top, card);
+    }
+
+    [Fact]
+    public void ChooseEnemyParameter_EnemyTopCard_ReturnsItsHighestStat()
+    {
+        var player = new Deck([TestCards.Make("Fila")]);
+        var enemy = new Deck([TestCards.Make("Enemy", danger: 2, intellect: 3, power: 9)]);
+        var game = new Game(player, enemy);
+
+        var parameter = game.ChooseEnemyParameter();
+
+        Assert.Equal(Parameter.Power, parameter);
+    }
+
+    [Fact]
+    public void PlayerCount_PlayerDeckWithThreeCards_ReturnsThree()
+    {
+        var player = new Deck([TestCards.Make("A"), TestCards.Make("B"), TestCards.Make("C")]);
+        var enemy = new Deck([TestCards.Make("Enemy")]);
+        var game = new Game(player, enemy);
+
+        var count = game.PlayerCount;
+
+        Assert.Equal(3, count);
+    }
+
+    [Fact]
+    public void EnemyCount_EnemyDeckWithTwoCards_ReturnsTwo()
+    {
+        var player = new Deck([TestCards.Make("Fila")]);
+        var enemy = new Deck([TestCards.Make("A"), TestCards.Make("B")]);
+        var game = new Game(player, enemy);
+
+        var count = game.EnemyCount;
+
+        Assert.Equal(2, count);
     }
 }

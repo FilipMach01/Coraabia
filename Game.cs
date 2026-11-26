@@ -3,17 +3,24 @@
 public class Game(Deck player, Deck enemy)
 {
     public Card PlayerCard => player.TopCard;
+
+    public int PlayerCount => player.Count;
     public Card EnemyCard => enemy.TopCard;
+    public int EnemyCount => enemy.Count;
+
     public bool IsOver => player.Count == 0 || enemy.Count == 0;
 
-    private readonly Outcome _result = Outcome.PlayerWins;
-    public bool IsPlayerTurn => _result == Outcome.PlayerWins;
+    private Outcome _lastWinner = Outcome.PlayerWins;
+    public bool IsPlayerTurn => _lastWinner == Outcome.PlayerWins;
 
-    public Outcome Result => (player.Count, enemy.Count) switch
+    public Parameter ChooseEnemyParameter() =>
+        Enum.GetValues<Parameter>().MaxBy(parameter => EnemyCard.GetStat(parameter));
+
+    public Outcome? Result => (player.Count, enemy.Count) switch
     {
         (0, _) => Outcome.EnemyWins,
         (_, 0) => Outcome.PlayerWins,
-        (_, _) => Outcome.Draw
+        (_, _) => null
     };
     
     private void Take(Deck winner, Card a, Card b)
@@ -21,6 +28,7 @@ public class Game(Deck player, Deck enemy)
         winner.AddCard(a);
         winner.AddCard(b);
     }
+    
     
     public Outcome Play(Parameter parameter)
     {
@@ -36,7 +44,8 @@ public class Game(Deck player, Deck enemy)
             0 => Outcome.Draw,
             > 0 => Outcome.PlayerWins
         };
-        result = outcome;
+        
+        _lastWinner = outcome == Outcome.Draw ? _lastWinner : outcome;
         var winner = outcome switch
         {
             Outcome.EnemyWins => enemy,
@@ -54,6 +63,5 @@ public class Game(Deck player, Deck enemy)
             enemy.AddCard(enemyCard);
         }
         return outcome;
-
     }
 }
