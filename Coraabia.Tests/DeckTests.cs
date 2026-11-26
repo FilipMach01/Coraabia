@@ -49,6 +49,20 @@ public class DeckTests
     }
 
     [Fact]
+    public void Deal_DeckWithFiveCards_GivesExtraCardToPlayer()
+    {
+        var deck = new Deck([
+            TestCards.Make("A"), TestCards.Make("B"), TestCards.Make("C"),
+            TestCards.Make("D"), TestCards.Make("E")
+        ]);
+
+        var (player, enemy) = deck.Deal();
+
+        Assert.Equal(3, player.Count);
+        Assert.Equal(2, enemy.Count);
+    }
+
+    [Fact]
     public void Shuffle_DeckWithManyCards_ChangesOrder()
     {
         var cards = Enumerable.Range(0, 20).Select(i => TestCards.Make($"Card{i}")).ToList();

@@ -23,10 +23,12 @@ public class Deck(List<Card> cards)
     {
         List<Card> playerCards = [];
         List<Card> enemyCards = [];
-        while (cards.Count > 0)
+        int cardCount = cards.Count;
+
+        for (int i = 0; i < cardCount; i++)
         {
-            playerCards.Add(Draw());
-            enemyCards.Add(Draw());
+            var target = i % 2 == 0 ? playerCards : enemyCards;
+            target.Add(Draw());
         }
 
         return (new Deck(playerCards), new Deck(enemyCards));
